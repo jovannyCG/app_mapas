@@ -29,5 +29,9 @@ final isEnable =(event.index == 1) ? true: false;
 });
   return isEnable;
 }
-
+@override
+  Future<void> close() {
+    // TODO: implement close
+    return super.close();
+  }
 }
