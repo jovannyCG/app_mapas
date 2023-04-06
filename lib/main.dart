@@ -12,7 +12,7 @@ class MapsApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'Material App',
-      home:LoadingScreen()
+      home:GpsAccessScreen()
       );
     
   }
