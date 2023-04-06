@@ -7,6 +7,7 @@ import 'blocs/gps/blocs.dart';
 import 'screens/screens.dart';
 
 void main()  {
+  
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(
@@ -24,7 +25,7 @@ class MapsApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'Material App',
-      home:GpsAccessScreen()
+      home:LoadingScreen()
       );
     
   }
