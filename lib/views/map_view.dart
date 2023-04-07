@@ -22,10 +22,10 @@ class MapView extends StatelessWidget {
       child: GoogleMap(
         myLocationButtonEnabled: false,
         zoomControlsEnabled: false,
-        trafficEnabled: true,
+        //trafficEnabled: true,
         compassEnabled: true,
         myLocationEnabled: true,
-          mapType: MapType.hybrid,
+         // mapType: MapType.hybrid,
           initialCameraPosition: initialCameraPosition,
           onMapCreated: ( controller) => mapBloc.add(OnMapInitializedEvent(controller)),
            
