@@ -12,12 +12,18 @@ class MapsScreen extends StatefulWidget {
 }
 
 class _MapsScreenState extends State<MapsScreen> {
+  late LocationBloc locationBloc;
   @override
   void initState() {
   final locationBloc = BlocProvider.of<LocationBloc>(context);
   locationBloc.startFollowingUser();
   //locationBloc.getCurrentPosition();
     super.initState();
+  }
+  @override
+  void dispose() {
+  locationBloc.stopFollowingUser();
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {
