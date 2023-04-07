@@ -1,4 +1,7 @@
+
+import 'package:app_mapas/views/views.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 
 import '../blocs/blocs.dart';
 import 'package:flutter/material.dart';
@@ -32,8 +35,16 @@ class _MapsScreenState extends State<MapsScreen> {
       body: BlocBuilder<LocationBloc, LocationState>(
       builder: (context, state) {
         if(state.lasKnowLocation == null) return const Center(child: Text('Espere porfavor...'),);
-        return Center(child: Text('${state.lasKnowLocation!.latitude},${state.lasKnowLocation!.longitude}'),);
+        return SingleChildScrollView(
+          child: Stack(
+            children: [
+              MapView(initialLocation: state.lasKnowLocation!,),
+          ],),
+        );
+        
+       // Center(child: Text('${state.lasKnowLocation!.latitude},${state.lasKnowLocation!.longitude}'),);
       },
     ));
   }
-}
+
+  }

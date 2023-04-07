@@ -1,0 +1,1 @@
+export 'package:app_mapas/views/map_view.dart';
