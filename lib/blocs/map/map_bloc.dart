@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -12,8 +12,8 @@ part 'map_state.dart';
 
 class MapBloc extends Bloc<MapEvent, MapState> {
   final LocationBloc locationBloc;
-
   GoogleMapController? _mapController;
+  StreamSubscription<LocationState>? locationStateSubscription;
 
   MapBloc({required this.locationBloc}) : super(const MapState()) {
 
@@ -29,7 +29,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<OnToggleUserRoute>(
         (event, emit) => emit(state.copyWith(showMyRoute: !state.showMyRoute)));
 
-    locationBloc.stream.listen((locationState) {
+    locationStateSubscription =locationBloc.stream.listen((locationState) {
       if (locationState.lasKnowLocation != null) {
         add(UpdateUserPolyLinesEvent(locationState.myLocationHistory));
       }
@@ -69,5 +69,10 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     final currentPolylines = Map<String, Polyline>.from(state.polylines);
     currentPolylines['myRoute'] = myRoute;
     emit(state.copyWith(polylines: currentPolylines));
+  }
+  @override
+  Future<void> close() {
+    locationStateSubscription?.cancel();
+    return super.close();
   }
 }
