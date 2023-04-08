@@ -14,27 +14,23 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
   GoogleMapController? _mapController;
 
-  MapBloc({
-    required this.locationBloc
-  }) : super(const MapState()) {
+  MapBloc({required this.locationBloc}) : super(const MapState()) {
     on<OnMapInitializedEvent>(_oninitMap);
     locationBloc.stream.listen((locationState) {
-      if(!state.followUser)return;
-      if(locationState.lasKnowLocation==null)return;
+      if (!state.isfollowingUser) return;
+      if (locationState.lasKnowLocation == null) return;
       movCamera(locationState.lasKnowLocation!);
-
-     });
+    });
   }
-  void _oninitMap(OnMapInitializedEvent event, Emitter<MapState> emit){
+  void _oninitMap(OnMapInitializedEvent event, Emitter<MapState> emit) {
     _mapController = event.controller;
     _mapController!.setMapStyle(jsonEncode(uberMapTheme));
     //_mapController!.setMapStyle(jsonEncode(darkMaptheme));
     emit(state.copyWith(isMapInitialized: true));
   }
 
-  void movCamera(LatLng newlocation){
+  void movCamera(LatLng newlocation) {
     final cameraUpdate = CameraUpdate.newLatLng(newlocation);
     _mapController?.animateCamera(cameraUpdate);
   }
-  
 }
