@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/blocs.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/widgets.dart';
+
 class MapsScreen extends StatefulWidget {
   const MapsScreen({super.key});
 
@@ -44,7 +46,17 @@ class _MapsScreenState extends State<MapsScreen> {
         
        // Center(child: Text('${state.lasKnowLocation!.latitude},${state.lasKnowLocation!.longitude}'),);
       },
-    ));
+    ),
+    floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+    floatingActionButton: Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: const[
+        BtnCurrentLocation(),
+
+      ],
+    ),
+    
+    );
   }
 
   }

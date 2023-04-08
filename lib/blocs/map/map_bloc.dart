@@ -21,4 +21,10 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     //_mapController!.setMapStyle(jsonEncode(darkMaptheme));
     emit(state.copyWith(isMapInitialized: true));
   }
+
+  void movCamera(LatLng newlocation){
+    final cameraUpdate = CameraUpdate.newLatLng(newlocation);
+    _mapController?.animateCamera(cameraUpdate);
+  }
+  
 }
