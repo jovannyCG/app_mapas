@@ -24,3 +24,7 @@ final List<LatLng> userLocation;
 
   const UpdateUserPolyLinesEvent(this.userLocation);
 }
+
+class OnToggleUserRoute extends MapEvent{
+
+}

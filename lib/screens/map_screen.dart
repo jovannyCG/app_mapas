@@ -1,5 +1,6 @@
 import 'package:app_mapas/views/views.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../blocs/blocs.dart';
 import 'package:flutter/material.dart';
@@ -42,12 +43,16 @@ class _MapsScreenState extends State<MapsScreen> {
 
           return BlocBuilder<MapBloc, MapState>(
             builder: (BuildContext context, mapState) {
+              Map<String, Polyline> polylines = Map.from(mapState.polylines);
+              if(!mapState.showMyRoute){
+                polylines.removeWhere((key, value) => key == 'myRoute');
+              }
               return SingleChildScrollView(
                 child: Stack(
                   children: [
                     MapView(
                       initialLocation: locationState.lasKnowLocation!,
-                      polylines: mapState.polylines.values.toSet(),
+                      polylines: polylines.values.toSet(),
                     ),
                   ],
                 ),
@@ -64,6 +69,7 @@ class _MapsScreenState extends State<MapsScreen> {
         children: const [
           BtnCurrentLocation(),
           BtnFollowUser(),
+          BtnShowRoute()
         ],
       ),
     );
