@@ -12,7 +12,7 @@ class MapView extends StatelessWidget {
   Widget build(BuildContext context) {
     final mapBloc = BlocProvider.of<MapBloc>(context);
     final size = MediaQuery.of(context).size;
-     final CameraPosition initialCameraPosition = CameraPosition(
+    final CameraPosition initialCameraPosition = CameraPosition(
       target: initialLocation,
       zoom: 15);
 
@@ -20,7 +20,7 @@ class MapView extends StatelessWidget {
       width: size.width,
       height: size.height,
       child:Listener(
-        onPointerMove: (pointerMoveEvent)=> print('evento'),
+        onPointerMove: (pointerMoveEvent)=> mapBloc.add(OnStopFollowingUserEventMap()),
         child: GoogleMap(
           myLocationButtonEnabled: false,
           zoomControlsEnabled: false,

@@ -18,7 +18,7 @@ class BtnFollowUser extends StatelessWidget {
           builder: (context, state) {
             return IconButton(
               onPressed: () {
-                
+                mapBloc.add(OnStartFollowingUserEventMap());
               },
               icon:  Icon(
                 state.isfollowingUser 
