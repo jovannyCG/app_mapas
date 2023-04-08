@@ -1,7 +1,5 @@
-
 import 'package:app_mapas/views/views.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 
 import '../blocs/blocs.dart';
 import 'package:flutter/material.dart';
@@ -35,29 +33,39 @@ class _MapsScreenState extends State<MapsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<LocationBloc, LocationState>(
-      builder: (context, state) {
-        if(state.lasKnowLocation == null) return const Center(child: Text('Espere porfavor...'),);
-        return SingleChildScrollView(
-          child: Stack(
-            children: [
-              MapView(initialLocation: state.lasKnowLocation!,),
-          ],),
-        );
-        
-       // Center(child: Text('${state.lasKnowLocation!.latitude},${state.lasKnowLocation!.longitude}'),);
-      },
-    ),
-    floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-    floatingActionButton: Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: const[
-        BtnCurrentLocation(),
-        BtnFollowUser(),
+        builder: (context, locationState) {
+          if (locationState.lasKnowLocation == null) {
+            return const Center(
+              child: Text('Espere porfavor...'),
+            );
+          }
 
-      ],
-    ),
-    
+          return BlocBuilder<MapBloc, MapState>(
+            builder: (BuildContext context, mapState) {
+              return SingleChildScrollView(
+                child: Stack(
+                  children: [
+                    MapView(
+                      initialLocation: locationState.lasKnowLocation!,
+                      polylines: mapState.polylines.values.toSet(),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+
+          // Center(child: Text('${state.lasKnowLocation!.latitude},${state.lasKnowLocation!.longitude}'),);
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: const [
+          BtnCurrentLocation(),
+          BtnFollowUser(),
+        ],
+      ),
     );
   }
-
-  }
+}
