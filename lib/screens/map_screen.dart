@@ -54,6 +54,7 @@ class _MapsScreenState extends State<MapsScreen> {
                       initialLocation: locationState.lasKnowLocation!,
                       polylines: polylines.values.toSet(),
                     ),
+                    const SearchBar(),
                   ],
                 ),
               );
@@ -67,9 +68,12 @@ class _MapsScreenState extends State<MapsScreen> {
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: const [
+
+         
           BtnCurrentLocation(),
           BtnFollowUser(),
-          BtnShowRoute()
+          BtnShowRoute(),
+         
         ],
       ),
     );
