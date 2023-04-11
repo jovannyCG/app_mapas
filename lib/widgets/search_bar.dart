@@ -1,3 +1,4 @@
+import 'package:app_mapas/search/search_delegate.dart';
 import 'package:flutter/material.dart';
 
 class SearchBar extends StatelessWidget {
@@ -28,7 +29,9 @@ class SearchBar extends StatelessWidget {
               style: TextStyle(color: Colors.black87),
             ),
           ),
-          onTap: () {},
+          onTap: () {
+            showSearch(context: context, delegate: SearchDestinationDelegate());
+          },
         ),
       ),
     );
