@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:app_mapas/blocs/blocs.dart';
 import 'package:app_mapas/models/models.dart';
 import 'package:app_mapas/search/search_delegate.dart';
@@ -13,7 +14,9 @@ class SearchBar extends StatelessWidget {
       builder: (context, state) {
         return state.displayManualMarker
             ? const SizedBox()
-            : const _SearchBarBody();
+            : FadeInDown(
+              duration: const Duration(milliseconds: 300),
+              child: const _SearchBarBody());
       },
     );
   }
