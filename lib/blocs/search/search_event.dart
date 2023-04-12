@@ -9,3 +9,7 @@ abstract class SearchEvent extends Equatable {
 class OnActivateManualMarkerEvent extends SearchEvent{
   
 }
+
+class OnDesActivateManualMarkerEvent extends SearchEvent{
+  
+}
