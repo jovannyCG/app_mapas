@@ -55,6 +55,7 @@ class _MapsScreenState extends State<MapsScreen> {
                       polylines: polylines.values.toSet(),
                     ),
                     const SearchBar(),
+                    const ManualMarker() 
                   ],
                 ),
               );
