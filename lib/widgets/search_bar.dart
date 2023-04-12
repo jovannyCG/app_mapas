@@ -29,8 +29,10 @@ class SearchBar extends StatelessWidget {
               style: TextStyle(color: Colors.black87),
             ),
           ),
-          onTap: () {
-            showSearch(context: context, delegate: SearchDestinationDelegate());
+          onTap: () async{
+            final result = await showSearch(context: context, delegate: SearchDestinationDelegate());
+            if(result==null)return;
+            print(result);
           },
         ),
       ),

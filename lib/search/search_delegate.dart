@@ -1,6 +1,8 @@
+import 'package:app_mapas/models/models.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SearchDestinationDelegate extends SearchDelegate {
+class SearchDestinationDelegate extends SearchDelegate<SearchResult> {
   SearchDestinationDelegate() : super(searchFieldLabel: 'Search...');
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -17,7 +19,8 @@ class SearchDestinationDelegate extends SearchDelegate {
   Widget? buildLeading(BuildContext context) {
     return IconButton(
         onPressed: () {
-          close(context, null);
+          final result = SearchResult(cancel: true);
+          close(context, result);
         },
         icon: const Icon(Icons.arrow_back));
   }
@@ -41,7 +44,8 @@ class SearchDestinationDelegate extends SearchDelegate {
             style: TextStyle(color: Colors.black),
           ),
           onTap: () {
-            close(context, null);
+            final result = SearchResult(cancel: false, manual: true);
+            close(context, result);
           },
         )
       ],
