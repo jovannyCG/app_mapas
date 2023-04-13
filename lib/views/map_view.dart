@@ -7,37 +7,37 @@ import '../blocs/blocs.dart';
 class MapView extends StatelessWidget {
   final LatLng initialLocation;
   final Set<Polyline> polylines;
-  
-  const MapView({
-    Key? key, required this.initialLocation, 
-    required this.polylines
-    }) : super(key: key);
-  
+
+  const MapView(
+      {Key? key, required this.initialLocation, required this.polylines})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final mapBloc = BlocProvider.of<MapBloc>(context);
     final size = MediaQuery.of(context).size;
-    final CameraPosition initialCameraPosition = CameraPosition(
-      target: initialLocation,
-      zoom: 15);
+    final CameraPosition initialCameraPosition =
+        CameraPosition(target: initialLocation, zoom: 15);
 
     return SizedBox(
       width: size.width,
       height: size.height,
-      child:Listener(
-        onPointerMove: (pointerMoveEvent)=> mapBloc.add(OnStopFollowingUserEventMap()),
+      child: Listener(
+        onPointerMove: (pointerMoveEvent) =>
+            mapBloc.add(OnStopFollowingUserEventMap()),
         child: GoogleMap(
           myLocationButtonEnabled: false,
           zoomControlsEnabled: false,
           //trafficEnabled: true,
           compassEnabled: true,
           myLocationEnabled: true,
-           // mapType: MapType.hybrid,
-           polylines: polylines,
-            initialCameraPosition: initialCameraPosition,
-            onMapCreated: ( controller) => mapBloc.add(OnMapInitializedEvent(controller)),
-             
-          ),
+          // mapType: MapType.hybrid,
+          polylines: polylines,
+          initialCameraPosition: initialCameraPosition,
+          onMapCreated: (controller) =>
+              mapBloc.add(OnMapInitializedEvent(controller)),
+          onCameraMove: (position) => mapBloc.mapCenter = position.target,
+        ),
       ),
     );
   }

@@ -23,6 +23,9 @@ class _ManualMarkerBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final searchBloc = BlocProvider.of<SearchBloc>(context);
+    final locationBloc = BlocProvider.of<LocationBloc>(context);
+    final mapBloc = BlocProvider.of<MapBloc>(context);
     final size = MediaQuery.of(context).size;
     return SizedBox(
       width: size.width,
@@ -52,7 +55,13 @@ class _ManualMarkerBody extends StatelessWidget {
                     elevation: 0,
                     height: 50,
                     shape: const StadiumBorder(),
-                    onPressed: () {},
+                    onPressed: () async{
+                      final start = locationBloc.state.lasKnowLocation;
+                      if (start == null) return;
+                      final end = mapBloc.mapCenter;
+                      if (end == null) return;
+                      await searchBloc.getCoorsStartToEnd(start, end);
+                    },
                     child: const Text(
                       'confirmar destino',
                       style: TextStyle(
@@ -81,8 +90,8 @@ class _BtnBack extends StatelessWidget {
         backgroundColor: Colors.white,
         child: IconButton(
             onPressed: () {
-              BlocProvider.of<SearchBloc>(context).add(
-                OnDesActivateManualMarkerEvent());
+              BlocProvider.of<SearchBloc>(context)
+                  .add(OnDesActivateManualMarkerEvent());
             },
             icon: const Icon(
               Icons.arrow_back,
