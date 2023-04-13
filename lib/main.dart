@@ -1,3 +1,4 @@
+import 'package:app_mapas/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,7 +18,7 @@ void main() {
         create: (context) => MapBloc(locationBloc: BlocProvider.of<LocationBloc>(context)),
       ),
       BlocProvider(
-        create: (context) => SearchBloc(),
+        create: (context) => SearchBloc(trafficService: TrafficService()),
       ),
     ],
     child: const MapsApp(),
