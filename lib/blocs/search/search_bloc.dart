@@ -15,7 +15,8 @@ TrafficService trafficService;
     on<OnActivateManualMarkerEvent>((event, emit) => emit(state.copyWhith(displayManualMarker: true)));
   on<OnDesActivateManualMarkerEvent>((event, emit) => emit(state.copyWhith(displayManualMarker: false)));
   }
-  Future getCoorsStartToEnd(LatLng start,LatLng end )async{
+  Future getCoorsStartToEnd( LatLng start, LatLng end ) async{
     final resp = await trafficService.getCoorsStartToEnd(start, end);
+    return resp;
   }
 }
