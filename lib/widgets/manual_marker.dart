@@ -3,6 +3,8 @@ import 'package:app_mapas/blocs/blocs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../helpers/helpers.dart';
+
 class ManualMarker extends StatelessWidget {
   const ManualMarker({Key? key}) : super(key: key);
 
@@ -55,13 +57,19 @@ class _ManualMarkerBody extends StatelessWidget {
                     elevation: 0,
                     height: 50,
                     shape: const StadiumBorder(),
-                    onPressed: () async{
+                    onPressed: () async {
                       final start = locationBloc.state.lasKnowLocation;
                       if (start == null) return;
                       final end = mapBloc.mapCenter;
                       if (end == null) return;
-                     final destination = await searchBloc.getCoorsStartToEnd(start, end);
-                      mapBloc.drawRoutePolyline(destination);
+                      showloadingMessage(context);
+                      
+                      final destination =
+                          await searchBloc.getCoorsStartToEnd(start, end);
+                      await mapBloc.drawRoutePolyline(destination);
+                      searchBloc.add(OnDesActivateManualMarkerEvent());
+                      Navigator.pop(context);
+
                     },
                     child: const Text(
                       'confirmar destino',
