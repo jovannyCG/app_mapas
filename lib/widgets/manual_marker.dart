@@ -60,7 +60,8 @@ class _ManualMarkerBody extends StatelessWidget {
                       if (start == null) return;
                       final end = mapBloc.mapCenter;
                       if (end == null) return;
-                      await searchBloc.getCoorsStartToEnd(start, end);
+                     final destination = await searchBloc.getCoorsStartToEnd(start, end);
+                      mapBloc.drawRoutePolyline(destination);
                     },
                     child: const Text(
                       'confirmar destino',

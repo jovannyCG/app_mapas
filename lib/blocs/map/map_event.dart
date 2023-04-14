@@ -28,3 +28,9 @@ final List<LatLng> userLocation;
 class OnToggleUserRoute extends MapEvent{
 
 }
+
+class DisplayPolyLinesEvent extends MapEvent{
+final Map<String, Polyline> polylines;
+
+  const DisplayPolyLinesEvent(this.polylines);
+}
