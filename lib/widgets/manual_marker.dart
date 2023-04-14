@@ -77,9 +77,7 @@ class _ManualMarkerBody extends StatelessWidget {
 }
 
 class _BtnBack extends StatelessWidget {
-  const _BtnBack({
-    super.key,
-  });
+  const _BtnBack();
 
   @override
   Widget build(BuildContext context) {
