@@ -27,15 +27,16 @@ return data;
 
   }
 
-  Future getResultsByQuery(LatLng proximity, String query) async{
+  Future<List<Feature>> getResultsByQuery(LatLng proximity, String query) async{
     if(query.isEmpty) return [];
     final url ='$_basePlacesUrl/$query.json';
     final resp = await _dioPlaces.get(url, queryParameters: {
       'proximity':'${proximity.longitude},${proximity.latitude}'
     });
-    //final data =TrafficResponse.fromMap(resp.data);
+    final placesResponce = PlacesResponse.fromJson(resp.data);
+    //final data =PlacesResponse.fromMap(resp.data);
 
-return [];
+return  placesResponce.features;
   }
 
 }
