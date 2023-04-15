@@ -17,6 +17,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         (event, emit) => emit(state.copyWhith(displayManualMarker: false)));
     on<OnNewPlacesFoundEvent>(
         (event, emit) => emit(state.copyWhith(places: event.places)));
+    on<AddHistoryEvent>((event, emit) =>
+        emit(state.copyWhith(history: [event.place, ...state.history])));
   }
   Future<RouteDestination> getCoorsStartToEnd(LatLng start, LatLng end) async {
     final trafficResponse = await trafficService.getCoorsStartToEnd(start, end);
