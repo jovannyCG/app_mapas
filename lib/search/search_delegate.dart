@@ -32,10 +32,11 @@ class SearchDestinationDelegate extends SearchDelegate<SearchResult> {
 
     final searchBloc = BlocProvider.of<SearchBloc>(context);
     final proximity = BlocProvider.of<LocationBloc>(context).state.lasKnowLocation;
+
 searchBloc.getPlacesByQuery(proximity!, query);
     return BlocBuilder<SearchBloc, SearchState>(
       builder: (context, state) {
-        return Text('results');
+        return Text('results ${state.places.length}');
       },
     );
   }

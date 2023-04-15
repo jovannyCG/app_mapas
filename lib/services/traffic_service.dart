@@ -33,7 +33,7 @@ return data;
     final resp = await _dioPlaces.get(url, queryParameters: {
       'proximity':'${proximity.longitude},${proximity.latitude}'
     });
-    final placesResponce = PlacesResponse.fromJson(resp.data);
+    final placesResponce = PlacesResponse.fromMap(resp.data);
     //final data =PlacesResponse.fromMap(resp.data);
 
 return  placesResponce.features;

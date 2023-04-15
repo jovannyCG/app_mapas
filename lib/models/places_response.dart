@@ -43,9 +43,13 @@ class Feature {
         required this.placeType,
         required this.properties,
         required this.textEs,
+        // required this.languageEs,
         required this.placeNameEs,
         required this.text,
+        required this.language,
         required this.placeName,
+        required this.matchingText,
+        required this.matchingPlaceName,
         required this.center,
         required this.geometry,
         required this.context,
@@ -56,9 +60,13 @@ class Feature {
     final List<String> placeType;
     final Properties properties;
     final String textEs;
+    // final Language? languageEs;
     final String placeNameEs;
     final String text;
+    final String? language;
     final String placeName;
+    final String? matchingText;
+    final String? matchingPlaceName;
     final List<double> center;
     final Geometry geometry;
     final List<Context> context;
@@ -73,10 +81,14 @@ class Feature {
         placeType: List<String>.from(json["place_type"].map((x) => x)),
         properties: Properties.fromMap(json["properties"]),
         textEs: json["text_es"],
+        // languageEs: json["language_es"] == null ? null : languageValues.map[json["language_es"]],
         placeNameEs: json["place_name_es"],
         text: json["text"],
+        language: json["language"],
         placeName: json["place_name"],
-        center: List<double>.from(json["center"].map((x) => x?.toDouble())),
+        matchingText: json["matching_text"],
+        matchingPlaceName: json["matching_place_name"],
+        center: List<double>.from(json["center"].map((x) => x.toDouble())),
         geometry: Geometry.fromMap(json["geometry"]),
         context: List<Context>.from(json["context"].map((x) => Context.fromMap(x))),
     );
@@ -87,34 +99,41 @@ class Feature {
         "place_type": List<dynamic>.from(placeType.map((x) => x)),
         "properties": properties.toMap(),
         "text_es": textEs,
+        // "language_es": languageEs == null ? null : languageValues.reverse[languageEs],
         "place_name_es": placeNameEs,
         "text": text,
+        "language": language,
         "place_name": placeName,
+        "matching_text": matchingText,
+        "matching_place_name": matchingPlaceName,
         "center": List<dynamic>.from(center.map((x) => x)),
         "geometry": geometry.toMap(),
         "context": List<dynamic>.from(context.map((x) => x.toMap())),
     };
+
+    @override
+  String toString() {
+    return 'Feature: $text';
+  }
 }
 
 class Context {
     Context({
         required this.id,
-        required this.mapboxId,
         required this.textEs,
         required this.text,
-        this.wikidata,
-        this.languageEs,
-        this.language,
-        this.shortCode,
+        required this.wikidata,
+        // required this.languageEs,
+        required this.language,
+        required this.shortCode,
     });
 
     final String id;
-    final String mapboxId;
     final String textEs;
     final String text;
     final String? wikidata;
-    final Language? languageEs;
-    final Language? language;
+    // final Language? languageEs;
+    final String? language;
     final String? shortCode;
 
     factory Context.fromJson(String str) => Context.fromMap(json.decode(str));
@@ -123,32 +142,25 @@ class Context {
 
     factory Context.fromMap(Map<String, dynamic> json) => Context(
         id: json["id"],
-        mapboxId: json["mapbox_id"],
         textEs: json["text_es"],
         text: json["text"],
         wikidata: json["wikidata"],
-        languageEs: languageValues.map[json["language_es"]]!,
-        language: languageValues.map[json["language"]]!,
+        // languageEs: json["language_es"],
+        language: json["language"],
         shortCode: json["short_code"],
     );
 
     Map<String, dynamic> toMap() => {
         "id": id,
-        "mapbox_id": mapboxId,
         "text_es": textEs,
         "text": text,
         "wikidata": wikidata,
-        "language_es": languageValues.reverse[languageEs],
-        "language": languageValues.reverse[language],
+        // "language_es": languageEs == null ? null : languageValues.reverse[languageEs],
+        "language": language,
         "short_code": shortCode,
     };
 }
 
-enum Language { ES }
-
-final languageValues = EnumValues({
-    "es": Language.ES
-});
 
 class Geometry {
     Geometry({
@@ -164,7 +176,7 @@ class Geometry {
     String toJson() => json.encode(toMap());
 
     factory Geometry.fromMap(Map<String, dynamic> json) => Geometry(
-        coordinates: List<double>.from(json["coordinates"].map((x) => x?.toDouble())),
+        coordinates: List<double>.from(json["coordinates"].map((x) => x.toDouble())),
         type: json["type"],
     );
 
@@ -176,47 +188,47 @@ class Geometry {
 
 class Properties {
     Properties({
-        this.foursquare,
-        this.landmark,
-        this.address,
-        this.category,
-        this.accuracy,
-        this.mapboxId,
+        required this.wikidata,
+        required this.category,
+        required this.landmark,
+        required this.address,
+        required this.foursquare,
+        required this.maki,
     });
 
-    final String? foursquare;
+    final String? wikidata;
+    final String? category;
     final bool? landmark;
     final String? address;
-    final String? category;
-    final String? accuracy;
-    final String? mapboxId;
+    final String? foursquare;
+    final String? maki;
 
     factory Properties.fromJson(String str) => Properties.fromMap(json.decode(str));
 
     String toJson() => json.encode(toMap());
 
     factory Properties.fromMap(Map<String, dynamic> json) => Properties(
-        foursquare: json["foursquare"],
+        wikidata: json["wikidata"],
+        category: json["category"],
         landmark: json["landmark"],
         address: json["address"],
-        category: json["category"],
-        accuracy: json["accuracy"],
-        mapboxId: json["mapbox_id"],
+        foursquare: json["foursquare"],
+        maki: json["maki"],
     );
 
     Map<String, dynamic> toMap() => {
-        "foursquare": foursquare,
+        "wikidata": wikidata,
+        "category": category,
         "landmark": landmark,
         "address": address,
-        "category": category,
-        "accuracy": accuracy,
-        "mapbox_id": mapboxId,
+        "foursquare": foursquare,
+        "maki": maki,
     };
 }
 
 class EnumValues<T> {
     Map<String, T> map;
-    late Map<T, String>? reverseMap;
+    Map<T, String>? reverseMap;
 
     EnumValues(this.map);
 

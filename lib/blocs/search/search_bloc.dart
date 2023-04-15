@@ -15,6 +15,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         (event, emit) => emit(state.copyWhith(displayManualMarker: true)));
     on<OnDesActivateManualMarkerEvent>(
         (event, emit) => emit(state.copyWhith(displayManualMarker: false)));
+    on<OnNewPlacesFoundEvent>(
+        (event, emit) => emit(state.copyWhith(places: event.places)));
   }
   Future<RouteDestination> getCoorsStartToEnd(LatLng start, LatLng end) async {
     final trafficResponse = await trafficService.getCoorsStartToEnd(start, end);
@@ -30,7 +32,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         points: latLngList, duration: duration, distance: distance);
   }
 
-  Future getPlacesByQuery(LatLng proximity, String query) async{
- final resp = trafficService.getResultsByQuery(proximity, query);
+  Future getPlacesByQuery(LatLng proximity, String query) async {
+    final newplaces = await trafficService.getResultsByQuery(proximity, query);
+    add(OnNewPlacesFoundEvent(newplaces));
   }
 }

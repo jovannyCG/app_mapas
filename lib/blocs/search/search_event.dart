@@ -13,3 +13,7 @@ class OnActivateManualMarkerEvent extends SearchEvent{
 class OnDesActivateManualMarkerEvent extends SearchEvent{
   
 }
+class OnNewPlacesFoundEvent extends SearchEvent{
+  final List<Feature> places;
+  const OnNewPlacesFoundEvent(this.places);
+}
