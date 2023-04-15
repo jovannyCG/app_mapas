@@ -15,19 +15,25 @@ class SearchBar extends StatelessWidget {
         return state.displayManualMarker
             ? const SizedBox()
             : FadeInDown(
-              duration: const Duration(milliseconds: 300),
-              child: const _SearchBarBody());
+                duration: const Duration(milliseconds: 300),
+                child: const _SearchBarBody());
       },
     );
   }
 }
 
 class _SearchBarBody extends StatelessWidget {
-  void onSearchResults(BuildContext context, SearchResult result) {
+  void onSearchResults(BuildContext context, SearchResult result) async {
     final searchBloc = BlocProvider.of<SearchBloc>(context);
+    final mapBloc = BlocProvider.of<MapBloc>(context);
+    final locationBloc = BlocProvider.of<LocationBloc>(context).state.lasKnowLocation;
     if (result.manual) {
       searchBloc.add(OnActivateManualMarkerEvent());
       return;
+    }
+    if (result.position != null) {
+      final destination = await searchBloc.getCoorsStartToEnd(locationBloc!, result.position!);
+      await mapBloc.drawRoutePolyline(destination);
     }
   }
 
