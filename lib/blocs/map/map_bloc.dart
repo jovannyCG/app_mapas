@@ -14,11 +14,10 @@ part 'map_state.dart';
 class MapBloc extends Bloc<MapEvent, MapState> {
   final LocationBloc locationBloc;
   GoogleMapController? _mapController;
-  LatLng? mapCenter; 
+  LatLng? mapCenter;
   StreamSubscription<LocationState>? locationStateSubscription;
 
   MapBloc({required this.locationBloc}) : super(const MapState()) {
-
     on<OnMapInitializedEvent>(_oninitMap);
 
     on<OnStartFollowingUserEventMap>(_onStartFollowingUser);
@@ -30,9 +29,10 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
     on<OnToggleUserRoute>(
         (event, emit) => emit(state.copyWith(showMyRoute: !state.showMyRoute)));
-        on<DisplayPolyLinesEvent>((event, emit) => emit(state.copyWith(polylines: event.polylines, markers: event.markers)));
+    on<DisplayPolyLinesEvent>((event, emit) => emit(
+        state.copyWith(polylines: event.polylines, markers: event.markers)));
 
-    locationStateSubscription =locationBloc.stream.listen((locationState) {
+    locationStateSubscription = locationBloc.stream.listen((locationState) {
       if (locationState.lasKnowLocation != null) {
         add(UpdateUserPolyLinesEvent(locationState.myLocationHistory));
       }
@@ -50,40 +50,42 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
   Future drawRoutePolyline(RouteDestination destination) async {
     final myRoute = Polyline(
-      width: 5,
-      polylineId: const PolylineId('route'),
-      color: Colors.black,
-      points: destination.points,
-      startCap: Cap.roundCap,
-      endCap: Cap.roundCap
-      );
-      final startMarker = Marker(
+        width: 5,
+        polylineId: const PolylineId('route'),
+        color: Colors.black,
+        points: destination.points,
+        startCap: Cap.roundCap,
+        endCap: Cap.roundCap);
+
+    double kms = destination.distance / 1000;
+    kms = (kms * 100).floorToDouble();
+    kms /= 100;
+
+    double tripDuration = (destination.duration / 60).floorToDouble();
+
+    final startMarker = Marker(
         markerId: const MarkerId('start'),
         position: destination.points.first,
-        infoWindow: const InfoWindow(
-          title: 'inicio',
-          snippet: 'punto inicial de la ruta'
-        )
-        );
-        final endMarker = Marker(
+        infoWindow:  InfoWindow(
+            title: 'inicio', snippet: 'kms: $kms, duración: $tripDuration'));
+    final endMarker = Marker(
         markerId: const MarkerId('end'),
         position: destination.points.last,
-        infoWindow: const InfoWindow(
-          title: 'fin',
-          snippet: 'punto final de la ruta'
-        )
-        );
+        infoWindow:
+            const InfoWindow(title: 'fin', snippet: 'punto final de la ruta'));
 
-      final currentPolylines = Map<String, Polyline>.from(state.polylines);
-      currentPolylines['route'] = myRoute;
+    final currentPolylines = Map<String, Polyline>.from(state.polylines);
+    currentPolylines['route'] = myRoute;
 
-      final currentMarkers = Map<String, Marker>.from(state.markers);
-      currentMarkers['start'] = startMarker;
-      currentMarkers['end'] = endMarker;
-      add(DisplayPolyLinesEvent(currentPolylines, currentMarkers));
+    final currentMarkers = Map<String, Marker>.from(state.markers);
+    currentMarkers['start'] = startMarker;
+    currentMarkers['end'] = endMarker;
+    add(DisplayPolyLinesEvent(currentPolylines, currentMarkers));
 
-      await Future.delayed(const Duration(milliseconds: 300));
-      _mapController?.showMarkerInfoWindow(const MarkerId('start'),);
+    await Future.delayed(const Duration(milliseconds: 300));
+    _mapController?.showMarkerInfoWindow(
+      const MarkerId('start'),
+    );
   }
 
   void movCamera(LatLng newlocation) {
@@ -111,6 +113,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     currentPolylines['myRoute'] = myRoute;
     emit(state.copyWith(polylines: currentPolylines));
   }
+
   @override
   Future<void> close() {
     locationStateSubscription?.cancel();
