@@ -31,6 +31,7 @@ return data;
     if(query.isEmpty) return [];
     final url ='$_basePlacesUrl/$query.json';
     final resp = await _dioPlaces.get(url, queryParameters: {
+      'limit': '7',
       'proximity':'${proximity.longitude},${proximity.latitude}'
     });
     final placesResponce = PlacesResponse.fromMap(resp.data);
@@ -38,5 +39,14 @@ return data;
 
 return  placesResponce.features;
   }
+  Future<Feature> getInformationByCoors(LatLng coors) async{
+    final url ='$_basePlacesUrl/${coors.longitude}, ${coors.latitude}.json';
+    final resp = await _dioPlaces.get(url, queryParameters: {
+      'limit': 1
+    });
+    final placesResponce = PlacesResponse.fromMap(resp.data);
+    //final data =PlacesResponse.fromMap(resp.data);
 
+return  placesResponce.features[0];
+  }
 }

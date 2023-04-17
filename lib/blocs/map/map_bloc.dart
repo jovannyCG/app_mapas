@@ -72,7 +72,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         markerId: const MarkerId('end'),
         position: destination.points.last,
         infoWindow:
-            const InfoWindow(title: 'fin', snippet: 'punto final de la ruta'));
+            InfoWindow(title: destination.endPlace.text, snippet: destination.endPlace.placeName));
 
     final currentPolylines = Map<String, Polyline>.from(state.polylines);
     currentPolylines['route'] = myRoute;
