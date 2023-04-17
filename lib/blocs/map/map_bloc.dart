@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:async';
+import 'package:app_mapas/helpers/helpers.dart';
 import 'package:app_mapas/models/models.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -63,8 +64,11 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
     double tripDuration = (destination.duration / 60).floorToDouble();
 
+    final startMarkerIcon = await getAssetImageMarker();
+
     final startMarker = Marker(
         markerId: const MarkerId('start'),
+        icon: startMarkerIcon,
         position: destination.points.first,
         infoWindow:  InfoWindow(
             title: 'inicio', snippet: 'kms: $kms, duración: $tripDuration'));
