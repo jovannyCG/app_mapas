@@ -18,7 +18,7 @@ class MarkerTest extends StatelessWidget {
           height: 150,
           color: Colors.amber,
           child: CustomPaint(
-            painter: StarTMarkerPainter(),
+            painter: StarTMarkerPainter(destination: 'Upiiz', minutes: 5),
           ),
         )
      ),

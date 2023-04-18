@@ -1,6 +1,12 @@
+
+
 import 'package:flutter/material.dart';
 
 class StarTMarkerPainter extends CustomPainter {
+  final int minutes;
+  final String destination;
+
+  StarTMarkerPainter({required this.minutes, required this.destination});
   @override
   void paint(Canvas canvas, Size size) {
     final blackpaint = Paint()..color = Colors.black;
@@ -28,37 +34,51 @@ class StarTMarkerPainter extends CustomPainter {
     canvas.drawRect(blacBox, blackpaint);
 
     final textSpan = TextSpan(
-      style: TextStyle(
-        color: Colors.white, fontSize: 30, fontWeight: FontWeight.w400,
-      ),
-      text: '55'
-    );
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 30,
+          fontWeight: FontWeight.w400,
+        ),
+        text: '$minutes');
     final minutesPaiter = TextPainter(
       text: textSpan,
       textDirection: TextDirection.ltr,
       textAlign: TextAlign.center,
-    )..layout(
-      minWidth: 70,
-      maxWidth: 70
-    );
-    minutesPaiter.paint(canvas, const Offset(40,35));
+    )..layout(minWidth: 70, maxWidth: 70);
+    minutesPaiter.paint(canvas, const Offset(40, 35));
 
-
-    final minutesText = TextSpan(
-      style: TextStyle(
-        color: Colors.white, fontSize: 18, fontWeight: FontWeight.w300,
-      ),
-      text: 'Minutos'
-    );
+    const minutesText = TextSpan(
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 18,
+          fontWeight: FontWeight.w300,
+        ),
+        text: 'Minutos');
     final minutesTextPaiter = TextPainter(
       text: minutesText,
       textDirection: TextDirection.ltr,
       textAlign: TextAlign.center,
-    )..layout(
-      minWidth: 70,
-      maxWidth: 70
-    );
-   minutesTextPaiter.paint(canvas, const Offset(40,68));
+    )..layout(minWidth: 70, maxWidth: 70);
+    minutesTextPaiter.paint(canvas, const Offset(40, 68));
+    //const tempdestination = 'Mi casa';
+
+    final locationText = TextSpan(
+        style: const TextStyle(
+          color: Colors.black,
+          fontSize: 18,
+          fontWeight: FontWeight.w400,
+        ),
+        text: destination);
+    final loactionPaiter = TextPainter(
+      maxLines: 2,
+      ellipsis: '...',
+      text: locationText,
+      textDirection: TextDirection.ltr,
+      textAlign: TextAlign.left,
+    )..layout(minWidth: size.width - 135, maxWidth: size.width - 135);
+    double offsetY = (destination.length > 20) ? 35 : 48;
+
+    loactionPaiter.paint(canvas, Offset(120, offsetY));
   }
 
   @override
