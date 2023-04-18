@@ -1,0 +1,1 @@
+export 'package:app_mapas/markers/start_marker.dart';
