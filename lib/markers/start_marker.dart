@@ -24,8 +24,41 @@ class StarTMarkerPainter extends CustomPainter {
     canvas.drawShadow(path, Colors.black, 10, false);
     canvas.drawPath(path, whitepaint);
 
-   const blacBox = Rect.fromLTWH(40, 20, 70, 80);
-   canvas.drawRect( blacBox, blackpaint);
+    const blacBox = Rect.fromLTWH(40, 20, 70, 80);
+    canvas.drawRect(blacBox, blackpaint);
+
+    final textSpan = TextSpan(
+      style: TextStyle(
+        color: Colors.white, fontSize: 30, fontWeight: FontWeight.w400,
+      ),
+      text: '55'
+    );
+    final minutesPaiter = TextPainter(
+      text: textSpan,
+      textDirection: TextDirection.ltr,
+      textAlign: TextAlign.center,
+    )..layout(
+      minWidth: 70,
+      maxWidth: 70
+    );
+    minutesPaiter.paint(canvas, const Offset(40,35));
+
+
+    final minutesText = TextSpan(
+      style: TextStyle(
+        color: Colors.white, fontSize: 18, fontWeight: FontWeight.w300,
+      ),
+      text: 'Minutos'
+    );
+    final minutesTextPaiter = TextPainter(
+      text: minutesText,
+      textDirection: TextDirection.ltr,
+      textAlign: TextAlign.center,
+    )..layout(
+      minWidth: 70,
+      maxWidth: 70
+    );
+   minutesTextPaiter.paint(canvas, const Offset(40,68));
   }
 
   @override
