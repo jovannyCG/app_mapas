@@ -30,6 +30,6 @@ class MapsApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(title: 'Material App', home: MarkerTest());
+    return  const MaterialApp(title: 'Material App', home: LoadingScreen());
   }
 }

@@ -62,24 +62,29 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     kms = (kms * 100).floorToDouble();
     kms /= 100;
 
-    double tripDuration = (destination.duration / 60).floorToDouble();
+   int tripDuration = (destination.duration / 60).floorToDouble().toInt();
 
-    final startMarkerIcon = await getAssetImageMarker();
-    final endMarkerIcon = await getNetworkImageMarker();
+    //final startMarkerIcon = await getAssetImageMarker();
+   // final endMarkerIcon = await getNetworkImageMarker();
 
+final startMarkerIcon = await getStartMarker(tripDuration, 'mi ubicacion');
+final endMarkerIcon = await getEndMarker(kms.toInt(), destination.endPlace.text);
     final startMarker = Marker(
+      anchor: const Offset(0.1, 1),
         markerId: const MarkerId('start'),
         icon: startMarkerIcon,
         position: destination.points.first,
-        infoWindow:  InfoWindow(
-            title: 'inicio', snippet: 'kms: $kms, duración: $tripDuration'));
+      //  infoWindow:  InfoWindow(
+       //     title: 'inicio', snippet: 'kms: $kms, duración: $tripDuration')
+       );
     final endMarker = Marker(
         markerId: const MarkerId('end'),
         icon: endMarkerIcon,
-        //anchor: const Offset(0.5, 1.0),
+        //anchor: const Offset(0.1, 1),
         position: destination.points.last,
-        infoWindow:
-            InfoWindow(title: destination.endPlace.text, snippet: destination.endPlace.placeName));
+       // infoWindow:
+         //   InfoWindow(title: destination.endPlace.text, snippet: destination.endPlace.placeName)
+            );
 
     final currentPolylines = Map<String, Polyline>.from(state.polylines);
     currentPolylines['route'] = myRoute;
@@ -90,9 +95,9 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     add(DisplayPolyLinesEvent(currentPolylines, currentMarkers));
 
     await Future.delayed(const Duration(milliseconds: 300));
-    _mapController?.showMarkerInfoWindow(
-      const MarkerId('start'),
-    );
+   // _mapController?.showMarkerInfoWindow(
+   //   const MarkerId('start'),
+    //);
   }
 
   void movCamera(LatLng newlocation) {
