@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../markers/end_marker.dart';
 import '../markers/start_marker.dart';
 
 
@@ -18,7 +19,7 @@ class MarkerTest extends StatelessWidget {
           height: 150,
           color: Colors.amber,
           child: CustomPaint(
-            painter: StarTMarkerPainter(destination: 'Upiiz', minutes: 5),
+            painter: EndMarkerPainter(destination: 'Upiiz', kms: 5),
           ),
         )
      ),
