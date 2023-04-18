@@ -65,6 +65,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     double tripDuration = (destination.duration / 60).floorToDouble();
 
     final startMarkerIcon = await getAssetImageMarker();
+    final endMarkerIcon = await getNetworkImageMarker();
 
     final startMarker = Marker(
         markerId: const MarkerId('start'),
@@ -74,6 +75,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
             title: 'inicio', snippet: 'kms: $kms, duración: $tripDuration'));
     final endMarker = Marker(
         markerId: const MarkerId('end'),
+        icon: endMarkerIcon,
+        //anchor: const Offset(0.5, 1.0),
         position: destination.points.last,
         infoWindow:
             InfoWindow(title: destination.endPlace.text, snippet: destination.endPlace.placeName));
